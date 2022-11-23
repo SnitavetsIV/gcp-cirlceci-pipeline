@@ -1,6 +1,5 @@
 version: '2.1'
 orbs:
-  python: circleci/python@2.1.1
   gcp-cli: circleci/gcp-cli@2.4.1
   serverless-framework: circleci/serverless-framework@2.0
 jobs:
@@ -8,12 +7,9 @@ jobs:
     executor: serverless-framework/default
     steps:
       - checkout
-      - python/install-packages:
-          args: pytest
-          pkg-manager: pipenv
       - run:
           command: |
-            pipenv run pytest --version
+            echo 'export CLOUDSDK_PYTHON=python3' >> ${BASH_ENV}
           name: Test it
       - gcp-cli/install
       - gcp-cli/initialize
