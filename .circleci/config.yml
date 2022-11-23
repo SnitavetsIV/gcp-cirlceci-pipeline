@@ -10,6 +10,9 @@ jobs:
     steps:
       - checkout
       - gcp-cli/install
+      - run:
+          command: echo $GCLOUD_SERVICE_KEY
+          name: echo
       - gcp-cli/initialize
       - serverless-framework/setup
       - run:
