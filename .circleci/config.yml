@@ -11,7 +11,7 @@ jobs:
       - checkout
       - gcp-cli/install
       - run:
-          command: echo $GCLOUD_SERVICE_KEY > /home/circleci/gcloud-service-key.json
+          command: echo "$GCLOUD_SERVICE_KEY" | base64 --decode > /home/circleci/gcloud-service-key.json
           name: echo
       - run:
           command: echo "$(cat /home/circleci/gcloud-service-key.json)"
