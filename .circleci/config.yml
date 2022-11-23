@@ -7,6 +7,8 @@ jobs:
     executor: serverless-framework/default
     steps:
       - checkout
+      - gcp-cli/install
+      - gcp-cli/initialize
       - serverless-framework/setup
       - run:
           command: serverless deploy --verbose
@@ -14,5 +16,4 @@ jobs:
 workflows:
   deploy:
     jobs:
-      - gcp-cli/install_and_initialize_cli
       - deploy
