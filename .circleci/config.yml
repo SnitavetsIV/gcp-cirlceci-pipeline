@@ -34,13 +34,13 @@ jobs:
             gcloud auth activate-service-account
             --key-file=${HOME}/gcloud-service-key.json
 
-            gcloud --quiet config set project $GOOGLE_PROJECT_ID
+            gcloud --quiet config set project "$GOOGLE_PROJECT_ID"
 
           name: Initialize gcloud CLI to connect to Google Cloud
       - serverless-framework/setup
       - run: npm install
       - run:
-          command: serverless deploy -v
+          command: serverless deploy --verbose
           name: deploy
 workflows:
   deploy:
