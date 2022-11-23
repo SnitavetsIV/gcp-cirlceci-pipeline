@@ -4,13 +4,11 @@ orbs:
   serverless-framework: circleci/serverless-framework@2.0
 jobs:
   deploy:
-    executor: serverless-framework/default
+    executor:
+      name: serverless-framework/default
+      python-version: 3.7-node
     steps:
       - checkout
-      - run:
-          command: |
-            echo 'export CLOUDSDK_PYTHON=python3' >> ${BASH_ENV}
-          name: Test it
       - gcp-cli/install
       - gcp-cli/initialize
       - serverless-framework/setup
