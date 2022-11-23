@@ -1,0 +1,30 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "collectCoverageFrom": ["src/**/*.{ts,js}"],
+  "coverageDirectory": "../out/coverage",
+  "coverageThreshold": {
+    "global": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    }
+  },
+  "projects": [
+    {
+      "preset": "ts-jest",
+      "displayName": "profile",
+      "testMatch": ["<rootDir>/test/**/profile/*.test.ts"]
+    },
+    {
+      "preset": "ts-jest",
+      "displayName": "libs",
+      "testMatch": ["<rootDir>/test/**/libs/**/*.test.ts"]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "profile-service",
+  "version": "0.1.0",
+  "description": "Profile service package json will have only the unique dependencies specific for the service. Mono repo main package json will have the common dependencies common to all projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "OpsGuru.io",
+  "devDependencies": {}
+}

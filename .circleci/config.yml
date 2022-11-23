@@ -1,0 +1,18 @@
+version: '2.1'
+orbs:
+  gcp-cli: circleci/gcp-cli@2.4.1
+  serverless-framework: circleci/serverless-framework@2.0
+jobs:
+  deploy:
+    executor: serverless-framework/default
+    steps:
+      - checkout
+      - serverless-framework/setup
+      - run:
+          command: serverless deploy --verbose
+          name: deploy
+workflows:
+  deploy:
+    jobs:
+      - gcp-cli/install_and_initialize_cli
+      - deploy

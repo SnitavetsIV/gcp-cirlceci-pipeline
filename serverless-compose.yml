@@ -1,0 +1,4 @@
+# serverless-compose.yml
+services:
+  hello:
+    path: src/apps/hello
