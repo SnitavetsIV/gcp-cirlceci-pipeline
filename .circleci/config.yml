@@ -1,6 +1,7 @@
 version: '2.1'
 orbs:
   gcp-cli: circleci/gcp-cli@2.4.1
+  node: circleci/node@5.0.3
   serverless-framework: circleci/serverless-framework@2.0
 jobs:
   deploy:
@@ -9,6 +10,9 @@ jobs:
       python-version: 3.7-node
     steps:
       - checkout
+      - node/install:
+          node-version: '16.13'
+      - run: node --version
       - gcp-cli/install
       - run:
           command: echo "$(cat /home/circleci/gcloud-service-key.json)"
@@ -34,8 +38,9 @@ jobs:
 
           name: Initialize gcloud CLI to connect to Google Cloud
       - serverless-framework/setup
+      - run: npm install
       - run:
-          command: serverless deploy --verbose
+          command: serverless deploy -v
           name: deploy
 workflows:
   deploy:
