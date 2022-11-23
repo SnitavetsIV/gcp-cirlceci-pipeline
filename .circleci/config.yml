@@ -17,7 +17,7 @@ jobs:
           command: >
             # Store service account
 
-            echo "$<<parameters.gcloud-service-key>>" | base64 --decode >
+            echo "$GCLOUD_SERVICE_KEY" | base64 --decode >
             ${HOME}/gcloud-service-key.json
 
 
@@ -30,17 +30,8 @@ jobs:
             gcloud auth activate-service-account
             --key-file=${HOME}/gcloud-service-key.json
 
-            gcloud --quiet config set project $<<parameters.google-project-id>>
+            gcloud --quiet config set project $GOOGLE_PROJECT_ID
 
-
-            if [[ -n $<<parameters.google-compute-zone>> ]]; then
-              gcloud --quiet config set compute/zone $<<parameters.google-compute-zone>>
-            fi
-
-
-            if [[ -n $<<parameters.google-compute-region>> ]]; then
-              gcloud --quiet config set compute/region $<<parameters.google-compute-region>>
-            fi
           name: Initialize gcloud CLI to connect to Google Cloud
       - serverless-framework/setup
       - run:
