@@ -28,8 +28,6 @@ jobs:
           command: echo $GCP_SERVICE_KEY_DEV > ./terraform/terraform-deploy.json
       - run: ls -l
       - run: cat ./terraform/terraform-deploy.json
-      - terraform/install:
-          terraform_version: 1.3.5
       - terraform/init:
           path: ./terraform
       - terraform/validate:
