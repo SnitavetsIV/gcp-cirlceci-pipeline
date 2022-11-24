@@ -8,7 +8,7 @@ terraform {
 }
 
 variable "google_project_id" {
-  type = string
+  type      = string
   sensitive = true
 }
 
