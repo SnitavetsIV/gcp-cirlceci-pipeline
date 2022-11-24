@@ -32,29 +32,18 @@ resource "google_storage_bucket_object" "object" {
   source = "function-source.zip" # Add path to the zipped function source code
 }
 
-resource "google_cloudfunctions2_function" "function" {
-  name        = "function-v2"
-  location    = "us-central1"
-  description = "a new function"
-
-  build_config {
-    runtime     = "nodejs16"
-    entry_point = "helloHttp" # Set the entry point
-    source {
-      storage_source {
-        bucket = google_storage_bucket.bucket.name
-        object = google_storage_bucket_object.object.name
-      }
-    }
-  }
-
-  service_config {
-    max_instance_count = 1
-    available_memory   = "128M"
-    timeout_seconds    = 60
-  }
+resource "google_cloudfunctions_function" "function" {
+  name                  = "function-v2"
+  location              = "us-central1"
+  description           = "a new function"
+  runtime               = "nodejs16"
+  available_memory_mb   = 128
+  source_archive_bucket = google_storage_bucket.bucket.name
+  source_archive_object = google_storage_bucket_object.object.name
+  trigger_http          = true
+  entry_point           = "helloHttp"
 }
 
 output "function_uri" {
-  value = google_cloudfunctions2_function.function.service_config[0].uri
+  value = google_cloudfunctions_function.function.https_trigger_url
 }
