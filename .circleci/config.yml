@@ -6,7 +6,7 @@ orbs:
 jobs:
   deploy:
     executor:
-      name: gcp-cli/google
+      name: hashicorp/terraform
     steps:
       - checkout
       - node/install:
