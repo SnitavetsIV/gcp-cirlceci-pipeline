@@ -34,7 +34,6 @@ resource "google_storage_bucket_object" "object" {
 
 resource "google_cloudfunctions_function" "function" {
   name                  = "function-v2"
-  location              = "us-central1"
   description           = "a new function"
   runtime               = "nodejs16"
   available_memory_mb   = 128
