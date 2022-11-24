@@ -22,18 +22,14 @@ provider "google" {
   region = var.google_region
 }
 
-resource "random_id" "bucket_prefix" {
-  byte_length = 8
-}
-
 resource "google_storage_bucket" "bucket" {
-  name                        = "${random_id.bucket_prefix.hex}-gcf-source" # Every bucket name must be globally unique
+  name                        = "${var.google_project_id}-gcf-source" # Every bucket name must be globally unique
   location                    = "US"
   uniform_bucket_level_access = true
 }
 
 resource "google_storage_bucket_object" "object" {
-  name   = "function-source.zip"
+  name   = "sourcecode.${timestamp()}.zip"
   bucket = google_storage_bucket.bucket.name
   source = "function-source.zip" # Add path to the zipped function source code
 }

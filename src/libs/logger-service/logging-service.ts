@@ -45,8 +45,8 @@ export class LoggingService {
     this.logger.notice(message);
   }
 
-  info(message: string) {
-    this.logger.info(message);
+  info(message: string, object?: any) {
+    this.logger.info(message, object);
   }
 
   debug(message: string) {
