@@ -6,7 +6,7 @@ orbs:
 jobs:
   deploy:
     executor:
-      name: hashicorp/terraform
+      name: terraform/default
     steps:
       - checkout
       - node/install:
