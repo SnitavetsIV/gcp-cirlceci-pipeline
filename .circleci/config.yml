@@ -29,6 +29,7 @@ jobs:
       - gcp-cli/initialize:
           gcloud-service-key: GCP_SERVICE_KEY_DEV
           google-project-id: GOOGLE_PROJECT_ID
+      - run: export GOOGLE_APPLICATION_CREDENTIALS=/home/circleci/gcloud-service-key.json
       - terraform/install
       - terraform/init:
           path: ./terraform
