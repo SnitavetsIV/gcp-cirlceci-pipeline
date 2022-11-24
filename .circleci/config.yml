@@ -8,10 +8,12 @@ jobs:
     executor:
       name: node/default
     steps:
+      - checkout
       - run: npm --version
+      - run: ls -l
       - persist_to_workspace:
           root: .
-          paths: 
+          paths:
             - terraform/function-source.zip
   deploy:
     executor:
