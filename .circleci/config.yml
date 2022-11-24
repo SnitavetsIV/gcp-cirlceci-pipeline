@@ -1,6 +1,5 @@
 version: '2.1'
 orbs:
-  gcp-cli: circleci/gcp-cli@2.4.1
   node: circleci/node@5.0.3
   terraform: circleci/terraform@3.2.0
 jobs:
@@ -17,7 +16,7 @@ jobs:
             - terraform/*
   deploy:
     executor:
-      name: gcp-cli/default
+      name: terraform/default
     environment:
       TF_IN_AUTOMATION: true
       GOOGLE_APPLICATION_CREDENTIALS: ./terraform-deploy.json
@@ -27,14 +26,6 @@ jobs:
       - run:
           name: gcp auth
           command: echo $GCP_SERVICE_KEY_DEV > ./terraform/terraform-deploy.json
-#      - gcp-cli/install
-#      - run:
-#          command: echo "$(cat /home/circleci/gcloud-service-key.json)"
-#          name: echo
-#      - gcp-cli/initialize:
-#          gcloud-service-key: GCP_SERVICE_KEY_DEV
-#          google-project-id: GOOGLE_PROJECT_ID
-#      - run: export GOOGLE_APPLICATION_CREDENTIALS=/home/circleci/gcloud-service-key.json
       - run: ls -l
       - run: cat ./terraform/terraform-deploy.json
       - terraform/install:
