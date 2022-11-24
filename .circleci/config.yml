@@ -4,11 +4,21 @@ orbs:
   node: circleci/node@5.0.3
   terraform: circleci/terraform@3.2.0
 jobs:
+  build:
+    executor:
+      name: node/default
+    steps:
+      - run: npm --version
+      - persist_to_workspace:
+          root: /tmp/build
+          paths: terraform/function-source.zip
   deploy:
     executor:
       name: terraform/default
     steps:
-      - checkout
+      - attach_workspace:
+          - /tmp/build
+      - run: ls -l /tmp/build
       - node/install:
           node-version: '16.13'
       - run: node --version
@@ -16,26 +26,9 @@ jobs:
       - run:
           command: echo "$(cat /home/circleci/gcloud-service-key.json)"
           name: echo
-      - run:
-          command: >
-            # Store service account
-
-            echo "$GCP_SERVICE_KEY_DEV" >
-            ${HOME}/gcloud-service-key.json
-
-
-            # Initialize gcloud CLI
-
-            gcloud --quiet config set core/disable_usage_reporting true
-
-            gcloud --quiet config set component_manager/disable_update_check true
-
-            gcloud auth activate-service-account
-            --key-file=${HOME}/gcloud-service-key.json
-
-            gcloud --quiet config set project "$GOOGLE_PROJECT_ID"
-
-          name: Initialize gcloud CLI to connect to Google Cloud
+      - gcp-cli/initialize:
+          gcloud-service-key: GCP_SERVICE_KEY_DEV
+          google-project-id: GOOGLE_PROJECT_ID
       - terraform/install
       - terraform/init:
           path: ./terraform
@@ -45,8 +38,13 @@ jobs:
           path: ./terraform
       - terraform/plan:
           path: ./terraform
+
 workflows:
   deploy:
     jobs:
+      - build
       - deploy:
           context: GCP
+          requires:
+            - build
+
