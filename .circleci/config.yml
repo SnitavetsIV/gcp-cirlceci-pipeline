@@ -36,6 +36,8 @@ jobs:
           path: ./terraform
       - terraform/plan:
           path: ./terraform
+      - terraform/apply:
+          path: ./terraform
 
 workflows:
   deploy:
