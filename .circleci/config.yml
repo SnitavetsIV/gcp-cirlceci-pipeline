@@ -27,7 +27,7 @@ jobs:
       - run: ls -l
       - run:
           name: gcp auth
-          command: echo $GCP_CREDENTIALS > terraform-deploy.json
+          command: echo $GCP_SERVICE_KEY_DEV > terraform-deploy.json
 #      - gcp-cli/install
 #      - run:
 #          command: echo "$(cat /home/circleci/gcloud-service-key.json)"
