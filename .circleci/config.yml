@@ -22,9 +22,6 @@ jobs:
       - attach_workspace:
           at: ./
       - run: ls -l
-      - node/install:
-          node-version: '16.13'
-      - run: node --version
       - gcp-cli/install
       - run:
           command: echo "$(cat /home/circleci/gcloud-service-key.json)"
