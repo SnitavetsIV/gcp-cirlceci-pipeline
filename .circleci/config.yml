@@ -20,6 +20,7 @@ jobs:
     environment:
       TF_IN_AUTOMATION: true
       GOOGLE_APPLICATION_CREDENTIALS: ./terraform-deploy.json
+      TF_VAR_google_project_id: $GOOGLE_PROJECT_ID
     steps:
       - attach_workspace:
           at: ./

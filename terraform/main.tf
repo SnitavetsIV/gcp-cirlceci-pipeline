@@ -7,7 +7,13 @@ terraform {
   }
 }
 
+variable "google_project_id" {
+  type = string
+  sensitive = true
+}
+
 provider "google" {
+  project = var.google_project_id
 }
 
 resource "random_id" "bucket_prefix" {
