@@ -12,8 +12,14 @@ variable "google_project_id" {
   sensitive = true
 }
 
+variable "google_region" {
+  type      = string
+  sensitive = true
+}
+
 provider "google" {
   project = var.google_project_id
+  region = var.google_region
 }
 
 resource "random_id" "bucket_prefix" {

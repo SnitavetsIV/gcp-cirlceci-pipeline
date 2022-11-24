@@ -34,10 +34,10 @@ jobs:
           path: ./terraform
       - terraform/plan:
           path: ./terraform
-          var: google_project_id=$GOOGLE_PROJECT_ID
+          var: google_project_id=$GOOGLE_PROJECT_ID,google_region=us-central1
       - terraform/apply:
           path: ./terraform
-          var: google_project_id=$GOOGLE_PROJECT_ID
+          var: google_project_id=$GOOGLE_PROJECT_ID,google_region=us-central1
 
 workflows:
   deploy:
