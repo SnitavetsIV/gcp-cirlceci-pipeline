@@ -34,6 +34,7 @@ jobs:
           path: ./terraform
       - terraform/plan:
           path: ./terraform
+          var: google_project_id=$GOOGLE_PROJECT_ID
       - terraform/apply:
           path: ./terraform
           var: google_project_id=$GOOGLE_PROJECT_ID
