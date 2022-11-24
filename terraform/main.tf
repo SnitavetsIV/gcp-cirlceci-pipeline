@@ -42,7 +42,7 @@ resource "google_cloudfunctions_function" "function" {
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.object.name
   trigger_http          = true
-  entry_point           = "helloGet"
+  entry_point           = "profile"
 }
 
 output "function_uri" {
