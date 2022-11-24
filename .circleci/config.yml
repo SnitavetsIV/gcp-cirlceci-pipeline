@@ -10,7 +10,7 @@ jobs:
     steps:
       - run: npm --version
       - persist_to_workspace:
-          root: /tmp/build
+          root: .
           paths: 
             - terraform/function-source.zip
   deploy:
@@ -18,8 +18,8 @@ jobs:
       name: terraform/default
     steps:
       - attach_workspace:
-          at: /tmp/build
-      - run: ls -l /tmp/build
+          at: ./
+      - run: ls -l
       - node/install:
           node-version: '16.13'
       - run: node --version
