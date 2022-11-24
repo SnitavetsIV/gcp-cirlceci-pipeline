@@ -2,12 +2,12 @@ version: '2.1'
 orbs:
   gcp-cli: circleci/gcp-cli@2.4.1
   node: circleci/node@5.0.3
-  serverless-framework: circleci/serverless-framework@2.0
+  terraform: circleci/terraform@3.2.0
 jobs:
   deploy:
+    context: GCP
     executor:
-      name: serverless-framework/default
-      python-version: 3.7-node
+      name: gcp-cli/google
     steps:
       - checkout
       - node/install:
@@ -21,7 +21,7 @@ jobs:
           command: >
             # Store service account
 
-            echo "$GCLOUD_SERVICE_KEY" | base64 --decode >
+            echo "GCP_SERVICE_KEY_DEV" | base64 --decode >
             ${HOME}/gcloud-service-key.json
 
 
@@ -37,12 +37,15 @@ jobs:
             gcloud --quiet config set project "$GOOGLE_PROJECT_ID"
 
           name: Initialize gcloud CLI to connect to Google Cloud
-      - serverless-framework/setup
-      - run: npm install
-      - run: npm install -g serverless
-      - run:
-          command: serverless deploy --verbose
-          name: deploy
+      - terraform/install
+      - terraform/init:
+          path: ./terraform
+      - terraform/validate:
+          path: ./terraform
+      - terraform/fmt:
+          path: ./terraform
+      - terraform/plan:
+          path: ./terraform
 workflows:
   deploy:
     jobs:
