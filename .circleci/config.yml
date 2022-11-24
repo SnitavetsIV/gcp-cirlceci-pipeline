@@ -17,7 +17,7 @@ jobs:
             - terraform/function-source.zip
   deploy:
     executor:
-      name: terraform/default
+      name: gcp-cli/default
     steps:
       - attach_workspace:
           at: ./
