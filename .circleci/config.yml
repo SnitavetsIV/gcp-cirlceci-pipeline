@@ -81,4 +81,7 @@ workflows:
           context: GCP
           requires:
             - tf-plan
+          filters:
+            branches:
+              only: master
 
