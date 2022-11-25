@@ -34,8 +34,6 @@ jobs:
       - run: cat ./terraform-vars.tfvars
       - terraform/init:
           path: ./terraform
-          var_file: ./terraform-vars.tfvars
-          backend_config: bucket=gcf-terraform-state
       - terraform/validate:
           path: ./terraform
           var_file: ./terraform-vars.tfvars
