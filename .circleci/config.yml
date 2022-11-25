@@ -24,12 +24,13 @@ jobs:
       - gcp-cli/initialize:
           gcloud-service-key: GCP_SERVICE_KEY_DEV
           google-project-id: GOOGLE_PROJECT_ID
+      - run: cd profile-service
       - run: ls -l
       - run: |
           gcloud functions deploy profile-service-function \
             --region=us-central1 \
             --runtime=nodejs16 \
-            --source=./profile-service \
+            --source=. \
             --entry-point=profile \
             --trigger-http
 
