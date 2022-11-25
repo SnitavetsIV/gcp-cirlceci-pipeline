@@ -21,7 +21,8 @@ jobs:
     environment:
       TF_IN_AUTOMATION: true
       GOOGLE_APPLICATION_CREDENTIALS: ./terraform-deploy.json
-      VAR_TF_FILE: ./terraform-vars.tfvars
+      TF_PARAM_VAR_FILE: ./terraform-vars.tfvars
+      TF_PARAM_BACKEND_CONFIG: bucket=gcf-terraform-state
     steps:
       - attach_workspace:
           at: ./
@@ -30,8 +31,7 @@ jobs:
           command: echo $GCP_SERVICE_KEY_DEV > ./terraform/terraform-deploy.json
       - run: >
           echo "google_project_id=$GOOGLE_PROJECT_ID" > ./terraform-vars.tfvars
-          echo "\ngoogle_region=us-central1" > ./terraform-vars.tfvars
-          echo "\ntf-state-bucket=gcf-terraform-state" > ./terraform-vars.tfvars
+          echo "google_region=us-central1" > ./terraform-vars.tfvars
       - run: ls -l
       - run: cat ./terraform-vars.tfvars
       - terraform/init:

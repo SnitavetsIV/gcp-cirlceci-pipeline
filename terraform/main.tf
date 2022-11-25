@@ -8,11 +8,6 @@ variable "google_region" {
   sensitive = true
 }
 
-variable "tf-state-bucket" {
-  type      = string
-  sensitive = true
-}
-
 terraform {
   required_providers {
     google = {
@@ -20,10 +15,7 @@ terraform {
       version = ">= 4.34.0"
     }
   }
-  backend "gcs" {
-    bucket  = var.tf-state-bucket
-    prefix  = "terraform/state"
-  }
+  backend "gcs" {}
 }
 
 provider "google" {
