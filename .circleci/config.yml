@@ -1,7 +1,7 @@
 version: '2.1'
 orbs:
   node: circleci/node@5.0.3
-  terraform: circleci/terraform@3.2.0
+  terraform: circleci/gcp-cli@2.4.1
 jobs:
   build-profile-service:
     executor:
@@ -9,76 +9,37 @@ jobs:
     steps:
       - checkout
       - run: (cd src/apps/profile && zip -r - .) > terraform/profile-service-source.zip
+      - run: mkdir ./profile-service
+      - run: mv -v src/apps/profile/* ./profile-service
       - persist_to_workspace:
-          root: .
+          root: ./
           paths:
-            - terraform/*
+            - ./profile-service/*
 
-  tf-plan:
+  gcp-deploy-profile-service:
     executor:
-      name: terraform/default
-      tag: 1.3.5
-    environment:
-      TF_IN_AUTOMATION: true
-      GOOGLE_APPLICATION_CREDENTIALS: ./gcp-credentials.json
+      name: gcp-cli/google
     steps:
       - attach_workspace:
-          at: ./
-      - run:
-          name: prepare gcp auth
-          command: echo $GCP_SERVICE_KEY_DEV > ./terraform/gcp-credentials.json
-      - run:
-          name: prepare terraform vars
-          command: |
-            echo "google_project_id = \"$GOOGLE_PROJECT_ID\"" >> ./terraform/terraform-vars.tfvars
-            echo "google_region = \"us-central1\"" >> ./terraform/terraform-vars.tfvars
-      - terraform/init:
-          path: ./terraform
-          backend_config: bucket=gcf-terraform-state
-      - terraform/validate:
-          path: ./terraform
-      - terraform/plan:
-          path: ./terraform
-          var_file: ./terraform-vars.tfvars
-          backend_config: bucket=gcf-terraform-state
-          out: plan.out
-      - persist_to_workspace:
-          root: .
-          paths:
-            - terraform/gcp-credentials.json
-            - terraform/plan.out
-
-  tf-apply:
-    executor:
-      name: terraform/default
-      tag: 1.3.5
-    environment:
-      TF_IN_AUTOMATION: true
-      GOOGLE_APPLICATION_CREDENTIALS: ./gcp-credentials.json
-    steps:
-      - attach_workspace:
-          at: ./
-      - terraform/init:
-          path: ./terraform
-          backend_config: bucket=gcf-terraform-state
-      - terraform/apply:
-          path: ./terraform
-          backend_config: bucket=gcf-terraform-state
-          plan: ./plan.out
+          at: ./profile-service/
+      - gcp-cli/initialize:
+          gcloud-service-key: $GCP_SERVICE_KEY_DEV
+          google-project-id: $GOOGLE_PROJECT_ID
+      - run: ls -l
+      - run: |
+          gcloud functions deploy profile-service-function \
+            --region=us-central1 \
+            --runtime=nodejs16 \
+            --source=. \
+            --entry-point=profile \
+            --trigger-http
 
 workflows:
   deploy:
     jobs:
       - build-profile-service
-      - tf-plan:
+      - gcp-deploy-profile-service:
           context: GCP
           requires:
             - build-profile-service
-      - tf-apply:
-          context: GCP
-          requires:
-            - tf-plan
-          filters:
-            branches:
-              only: main
 
