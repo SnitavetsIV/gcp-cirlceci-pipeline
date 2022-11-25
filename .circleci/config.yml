@@ -26,11 +26,12 @@ jobs:
           google-project-id: GOOGLE_PROJECT_ID
       - run: cd profile-service
       - run: ls -l
+      - run: ls -l profile-service
       - run: |
           gcloud functions deploy profile-service-function \
             --region=us-central1 \
             --runtime=nodejs16 \
-            --source=. \
+            --source=./profile-service/ \
             --entry-point=profile \
             --trigger-http
 
