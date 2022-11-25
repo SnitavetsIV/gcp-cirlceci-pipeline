@@ -46,7 +46,6 @@ jobs:
           root: .
           paths:
             - terraform/gcp-credentials.json
-            - terraform/terraform-vars.tfvars
             - terraform/plan.out
 
   tf-apply:
@@ -64,7 +63,6 @@ jobs:
           backend_config: bucket=gcf-terraform-state
       - terraform/apply:
           path: ./terraform
-          var_file: ./terraform-vars.tfvars
           backend_config: bucket=gcf-terraform-state
           plan: ./plan.out
 
