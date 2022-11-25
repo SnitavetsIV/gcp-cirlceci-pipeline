@@ -71,7 +71,7 @@ workflows:
       - tf-plan:
           context: GCP
           requires:
-            - build
+            - build-profile-service
       - tf-apply:
           context: GCP
           requires:
