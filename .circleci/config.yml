@@ -23,8 +23,8 @@ jobs:
       - attach_workspace:
           at: ./profile-service/
       - gcp-cli/initialize:
-          gcloud-service-key: $GCP_SERVICE_KEY_DEV
-          google-project-id: $GOOGLE_PROJECT_ID
+          gcloud-service-key: GCP_SERVICE_KEY_DEV
+          google-project-id: GOOGLE_PROJECT_ID
       - run: ls -l
       - run: |
           gcloud functions deploy profile-service-function \
