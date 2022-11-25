@@ -25,7 +25,7 @@ jobs:
           gcloud-service-key: GCP_SERVICE_KEY_DEV
           google-project-id: GOOGLE_PROJECT_ID
       - run: |
-          gcloud functions deploy profile-service-function \
+          gcloud functions deploy profile-service-$CIRCLE_BRANCH \
             --region=us-central1 \
             --runtime=nodejs16 \
             --source=./profile-service/ \
@@ -40,4 +40,10 @@ workflows:
           context: GCP
           requires:
             - build-profile-service
+          filters:
+            branches:
+              only:
+                - main
+                - gcp-functions
+                - dev
 
