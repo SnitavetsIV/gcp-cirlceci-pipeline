@@ -61,6 +61,9 @@ jobs:
           at: ./
       - run: ls -l
       - run: ls -l terraform
+      - terraform/init:
+          path: ./terraform
+          backend_config: bucket=gcf-terraform-state
       - terraform/apply:
           path: ./terraform
           var_file: ./terraform-vars.tfvars
@@ -77,5 +80,5 @@ workflows:
       - tf-apply:
           context: GCP
           requires:
-            - build
+            - tf-plan
 
