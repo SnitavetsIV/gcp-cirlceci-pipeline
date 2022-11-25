@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 4.34.0"
-    }
-  }
-}
-
 variable "google_project_id" {
   type      = string
   sensitive = true
@@ -15,6 +6,24 @@ variable "google_project_id" {
 variable "google_region" {
   type      = string
   sensitive = true
+}
+
+variable "tf-state-bucket" {
+  type      = string
+  sensitive = true
+}
+
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 4.34.0"
+    }
+  }
+  backend "gcs" {
+    bucket  = var.tf-state-bucket
+    prefix  = "terraform/state"
+  }
 }
 
 provider "google" {
