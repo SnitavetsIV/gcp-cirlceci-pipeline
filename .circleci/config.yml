@@ -31,8 +31,8 @@ jobs:
           name: gcp auth
           command: echo $GCP_SERVICE_KEY_DEV > ./terraform/terraform-deploy.json
       - run: |
-          echo "google_project_id=$GOOGLE_PROJECT_ID" >> ./terraform-vars.tfvars
-          echo "google_region=us-central1" >> ./terraform-vars.tfvars
+          echo "google_project_id = \"$GOOGLE_PROJECT_ID\"" >> ./terraform-vars.tfvars
+          echo "google_region = \"us-central1\"" >> ./terraform-vars.tfvars
       - run: ls -l
       - run: cat ./terraform-vars.tfvars
       - terraform/init:
