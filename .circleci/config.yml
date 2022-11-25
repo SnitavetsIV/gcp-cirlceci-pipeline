@@ -24,9 +24,6 @@ jobs:
       - gcp-cli/initialize:
           gcloud-service-key: GCP_SERVICE_KEY_DEV
           google-project-id: GOOGLE_PROJECT_ID
-      - run: cd profile-service
-      - run: ls -l
-      - run: ls -l profile-service
       - run: |
           gcloud functions deploy profile-service-function \
             --region=us-central1 \
