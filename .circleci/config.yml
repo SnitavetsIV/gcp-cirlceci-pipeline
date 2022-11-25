@@ -70,11 +70,11 @@ workflows:
   deploy:
     jobs:
       - build
-      - ts-plan:
+      - tf-plan:
           context: GCP
           requires:
             - build
-      - ts-apply:
+      - tf-apply:
           context: GCP
           requires:
             - build
