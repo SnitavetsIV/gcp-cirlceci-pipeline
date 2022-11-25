@@ -83,5 +83,5 @@ workflows:
             - tf-plan
           filters:
             branches:
-              only: master
+              only: main
 
