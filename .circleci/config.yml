@@ -20,13 +20,13 @@ jobs:
       tag: 1.3.5
     environment:
       TF_IN_AUTOMATION: true
-      GOOGLE_APPLICATION_CREDENTIALS: ./terraform-deploy.json
+      GOOGLE_APPLICATION_CREDENTIALS: ./gcp-credentials.json
     steps:
       - attach_workspace:
           at: ./
       - run:
           name: prepare gcp auth
-          command: echo $GCP_SERVICE_KEY_DEV > ./terraform/terraform-deploy.json
+          command: echo $GCP_SERVICE_KEY_DEV > ./terraform/gcp-credentials.json
       - run:
           name: prepare terraform vars
           command: |
@@ -41,10 +41,13 @@ jobs:
           path: ./terraform
           var_file: ./terraform-vars.tfvars
           backend_config: bucket=gcf-terraform-state
+          out: plan.out
       - persist_to_workspace:
           root: .
           paths:
-            - terraform/*
+            - terraform/gcp-credentials.json
+            - terraform/terraform-vars.tfvars
+            - terraform/plan.out
 
   tf-apply:
     executor:
@@ -63,6 +66,7 @@ jobs:
           path: ./terraform
           var_file: ./terraform-vars.tfvars
           backend_config: bucket=gcf-terraform-state
+          plan: ./plan.out
 
 workflows:
   deploy:
