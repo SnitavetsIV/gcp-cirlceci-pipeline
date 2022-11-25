@@ -1,7 +1,7 @@
 version: '2.1'
 orbs:
   node: circleci/node@5.0.3
-  terraform: circleci/gcp-cli@2.4.1
+  gcp-cli: circleci/gcp-cli@2.4.1
 jobs:
   build-profile-service:
     executor:
